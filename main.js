@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
+const {globalShortcut} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -16,7 +17,6 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
-
   // Open the DevTools.
   win.webContents.openDevTools()
 
@@ -27,7 +27,25 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+  const {dialog} = require("electron");
+  console.log(dialog.showOpenDialog({
+    properties: ['multiSelections']
+  }));
+
+  globalShortcut.register('a', function () {
+    dialog.showMessageBox({
+      type: 'info',
+      message: 'Success!',
+      detail: 'You pressed the registered global shortcut keybinding.',
+      buttons: ['OK']
+    })
+  })
+
+
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
